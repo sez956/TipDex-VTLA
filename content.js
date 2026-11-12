@@ -39,10 +39,10 @@ window.PROJECT = {
     {
       "title": "Mung Bean Pouring",
       "task": "Mung bean pouring",
-      "caption": "倒绿豆 · Video coming soon",
-      "src": "",
-      "poster": "",
-      "duration": ""
+      "caption": "倒绿豆 · Multi-view RGB and touch",
+      "src": "assets/demos/mung-bean.mp4",
+      "poster": "assets/demos/mung-bean.jpg",
+      "duration": "01:22"
     }
   ],
   "simulationDemos": [

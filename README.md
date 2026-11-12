@@ -15,8 +15,8 @@ Run `python -m http.server 8765` in this folder, then visit http://localhost:876
 - `content.js`: author list, abstract, real-world result data and demonstration cards.
 - `index.html`: method summary, simulation results, ablations and figure descriptions.
 - `assets/paper/`: figures approved for display; no manuscript PDF is distributed.
-- `assets/demos/`: three real-world videos, eight simulation videos and their posters.
-- The fourth real-world card is reserved for mung bean pouring. Fill its `src`, `poster` and `duration` in `content.js` to activate it.
+- `assets/demos/`: four real-world videos, eight simulation videos and their posters.
+- All four real-world task videos are available, including mung bean pouring.
 
 Real-world videos are H.264 / AAC web copies at their original 1440×1440 resolution. All videos load on demand. Source recordings are preserved outside this repository.
 

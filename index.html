@@ -8,7 +8,10 @@
   <meta property="og:title" content="TipDex-VTLA · Learning When to Refine Actions with Touch">
   <meta property="og:description" content="Watch dexterous manipulation under low light, bright light, and directional lighting.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://sez956.github.io/TipDex-VTLA/assets/paper/main-figure.png">
+  <meta property="og:image" content="https://sez956.github.io/TipDex-VTLA/assets/paper/refinement-regimes.webp">
+  <meta property="og:image:width" content="3831">
+  <meta property="og:image:height" content="2096">
+  <meta property="og:image:alt" content="TipDex-VTLA compares vision-only action drift with four modes of tactile refinement and shows the robot and its four tasks.">
   <meta property="og:url" content="https://sez956.github.io/TipDex-VTLA/">
   <title>TipDex-VTLA · Learning When to Refine Actions with Touch</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -41,11 +44,11 @@
         <div><strong>73.8<span>%</span></strong><p>Unseen lighting</p><small>+42.5 pp over N0-VTLA</small></div>
         <div><strong>84.9<span>%</span></strong><p>UniVTAC simulation</p><small>8 tasks · VASE and TACE enabled</small></div>
       </div>
-      <figure class="paper-figure hero-figure">
-        <button class="figure-button" data-figure="assets/paper/main-figure.png" data-caption="Visual disturbances and the four real-world manipulation tasks" aria-label="Enlarge platform and task overview">
-          <img src="assets/paper/main-figure.png" width="1360" height="742" alt="A robot with two dexterous hands, four manipulation tasks and examples of visual disturbances.">
+      <figure class="paper-figure hero-figure" id="project-figure">
+        <button class="figure-button" data-figure="assets/paper/refinement-regimes.webp" data-caption="Figure 1. Action refinement with visual reliability and tactile feedback." aria-label="Enlarge Figure 1: TipDex-VTLA overview">
+          <img src="assets/paper/refinement-regimes.webp" width="3831" height="2096" fetchpriority="high" alt="Left: a vision-only policy drifts when visual conditions change. Center: visual reliability and tactile forecast agreement define four refinement regimes. Right: the robot performs egg transfer, grape pinching, tissue extraction and mung bean pouring.">
         </button>
-        <figcaption>Our hardware and four tasks: egg transfer, grape pinching, tissue extraction and mung bean pouring.</figcaption>
+        <figcaption><strong>Figure 1. Action refinement with visual reliability and tactile feedback.</strong> Visual disturbances can cause a vision-only policy to drift. TipDex-VTLA combines visual reliability and tactile forecast agreement to guide refinement across four regimes.</figcaption>
       </figure>
     </header>
 
@@ -76,7 +79,7 @@
           <button class="figure-button" data-figure="assets/paper/architecture-v2.webp" data-caption="Slow and fast branches with delayed tactile verification and gated feature correction" aria-label="Enlarge model architecture">
             <img src="assets/paper/architecture-v2.webp" width="1908" height="954" loading="lazy" alt="TipDex-VTLA architecture showing the slow VLM and VASE branch, the fast tactile branch, and TACE verification and feature correction.">
           </button>
-          <figcaption>The fast branch refines actions within their original time slots. Committed actions stay fixed.</figcaption>
+          <figcaption><strong>Figure 2. TipDex-VTLA architecture.</strong> The fast branch refines actions within their original time slots. Committed actions stay fixed.</figcaption>
         </figure>
         <div class="method-cards">
           <article><span class="module-tag">01 / VASE</span><h3>Estimate visual reliability</h3><p>Compare a frozen reference policy’s actions under paired lighting changes during training. At runtime, VASE estimates action reliability from the current observation.</p></article>
@@ -87,11 +90,7 @@
         <details class="sequence-details">
           <summary>See the four refinement regimes <span aria-hidden="true">＋</span></summary>
           <p class="section-intro">With forecast agreement, high visual reliability favors preserving the nominal action and low reliability favors visual compensation. With forecast disagreement, high reliability favors contact correction and low reliability favors joint correction.</p>
-          <figure class="paper-figure">
-            <button class="figure-button" data-figure="assets/paper/refinement-regimes.webp" data-caption="Four refinement regimes: visual compensation, nominal preservation, joint correction, and contact correction" aria-label="Enlarge the four refinement regimes">
-              <img src="assets/paper/refinement-regimes.webp" width="3831" height="2096" loading="lazy" alt="Four regimes organize action refinement by visual reliability and agreement between predicted and observed touch.">
-            </button>
-          </figure>
+          <p class="section-intro"><a href="#project-figure">↑ See the four regimes in Figure 1</a></p>
         </details>
         <details class="sequence-details">
           <summary>See the two-stage training pipeline <span aria-hidden="true">＋</span></summary>
@@ -99,6 +98,7 @@
             <button class="figure-button" data-figure="assets/paper/training-v2.webp" data-caption="Stage 1 trains the backbone and forecaster; Stage 2 trains visual reliability and tactile refinement" aria-label="Enlarge two-stage training pipeline">
               <img src="assets/paper/training-v2.webp" width="1446" height="888" loading="lazy" alt="Training diagram showing future touch prediction and paired action targets under changed illumination.">
             </button>
+            <figcaption><strong>Figure 3. Two-stage training.</strong> Paired observations under different lighting supply the reliability and correction targets for VASE and TACE.</figcaption>
           </figure>
         </details>
       </section>

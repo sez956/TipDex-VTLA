@@ -1,23 +1,172 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="TipDex-VTLA learns when to refine dexterous manipulation actions with touch through visual action sensitivity estimation and tactile forecast verification."><meta name="theme-color" content="#7755d6"><meta property="og:title" content="TipDex-VTLA · Learning When to Refine Actions with Touch"><meta property="og:description" content="Visual reliability and verified touch for execution-time dexterous manipulation."><meta property="og:type" content="website"><meta property="og:image" content="https://sez956.github.io/TipDex-VTLA/assets/paper/main-figure.png"><meta property="og:url" content="https://sez956.github.io/TipDex-VTLA/"><title>TipDex-VTLA · Learning When to Refine Actions with Touch</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><script defer src="content.js?v=20261112-mung-bean-2"></script><script defer src="app.js"></script><script defer src="demos.js"></script></head>
-<body><a class="skip-link" href="#abstract">Skip to content</a>
-<nav class="topbar" aria-label="Main navigation"><a class="brand" href="#"><span class="mark">✳</span> TipDex-VTLA</a><div class="navlinks"><a href="#overview">Method</a><a href="#video">Real World</a><a href="#simulation">Simulation</a><a href="#results">Results</a><a href="#citation">Citation ↗</a></div></nav>
-<main><header class="hero wrap paper-hero"><div class="eyebrow"><span class="status-dot"></span> RESEARCH DRAFT · VISION + TOUCH + ACTION</div><h1><span class="gradient">TipDex-VTLA</span><br><span class="paper-title">Learning When to Refine Actions<br class="desktop-break"> with Touch for Dexterous Manipulation</span></h1><p class="tagline">When lighting changes, let verified touch guide the next action.</p><div class="authors" id="authors"></div><p class="note equal-note">* Equal contribution</p><div class="resources"><a class="pill" href="https://github.com/sez956/TipDex-VTLA" target="_blank" rel="noopener">〈/〉 &nbsp; GitHub ↗</a><a class="pill" href="#video">▷ &nbsp; Watch Demos</a><a class="pill" href="#results">↗ &nbsp; Explore Results</a></div><figure class="paper-figure"><button class="figure-button" data-figure="assets/paper/main-figure.png" data-caption="Tactile refinement under unseen lighting" aria-label="Enlarge research overview figure"><img src="assets/paper/main-figure.png" width="1360" height="742" alt="Comparison of a VLA policy with TipDex-VTLA under illumination changes, alongside the real-world robot platform and four tasks."></button><figcaption>Lighting shifts can change predicted actions even when the physical state is unchanged.<br>TipDex-VTLA combines visual reliability with tactile forecast verification to guide refinement.</figcaption></figure>
-<div class="paper-stats"><div><strong>87.5<span>%</span></strong><p>Standard lighting</p><small>Real-world full-task success</small></div><div><strong>73.8<span>%</span></strong><p>Unseen lighting</p><small>Real-world full-task success</small></div><div><strong>+51.3<span>pp</span></strong><p>Over T-Rex in unseen lighting</p><small>Average across four tasks · draft Table 3</small></div></div></header>
-<section class="wrap abstract-section" id="abstract"><div class="section-kicker">01 / THE BIG PICTURE</div><h2>Abstract<span>研究摘要</span></h2><p id="abstract-text" class="abstract-text"></p><p class="draft-note">Results and descriptions on this page are from the current research draft. This page does not indicate conference acceptance.</p></section>
-<div class="soft-band"><section class="wrap" id="overview"><div class="section-kicker">02 / HOW IT WORKS</div><h2>Refine the actions that remain.<span>方法概览</span></h2><p class="section-intro">A slow branch initializes and caches the action flow. A fast branch reuses that state to refine only replaceable, unexecuted actions, preserving their original execution times.</p><figure class="paper-figure"><button class="figure-button" data-figure="assets/paper/method.png" data-caption="TipDex-VTLA model architecture, VASE and TACE" aria-label="Enlarge model architecture"><img src="assets/paper/method.png" width="1924" height="1034" loading="lazy" alt="TipDex-VTLA architecture with a slow vision-language action branch, fast tactile branch, VASE visual usability estimation and TACE refinement."></button><figcaption>Architecture and refinement mechanisms, reproduced from Figure 2 of the draft.</figcaption></figure><div class="method-cards"><article><span class="module-tag">01 / VASE</span><h3>Is vision still useful for action?</h3><p>Paired illumination changes reveal how a frozen VTLA policy’s predicted actions shift. VASE learns an action-grounded visual usability score, rather than a generic image-quality score.</p></article><article><span class="module-tag">02 / TACE</span><h3>Does touch match the forecast?</h3><p>Predicted and measured touch are matched by timestamp and executed-action consistency. Verified discrepancies and the visual prior regulate the strength of additional tactile corrections.</p></article><article><span class="module-tag">03 / BOUNDED REFINEMENT</span><h3>Correct with current contact.</h3><p>Current tactile measurements and execution context determine a bounded feature residual. Forecast errors regulate its gate; they do not directly determine its direction.</p></article></div><div class="training-strip"><div><b>Stage 1</b><span>Train the VTLA backbone, tactile encoder and tactile forecaster.</span></div><span class="training-arrow" aria-hidden="true">→</span><div><b>Stage 2</b><span>Freeze Stage 1 parameters; train VASE and gated tactile refinement.</span></div></div></section></div>
-<section class="wrap demo-section" id="video"><div class="section-header"><div><div class="section-kicker">03 / REAL-WORLD EXPERIMENTS</div><h2>Dexterity, in the real world.<span>实物实验</span></h2></div><span class="demo-count"><i></i> 4 videos · 4 tasks</span></div><p class="demo-intro">Fragile, soft, deformable and granular objects. The available videos show synchronized multi-view RGB and tactile signals.</p><div id="real-demos" class="demo-grid real-grid"></div><details class="sequence-details"><summary>View task execution sequences from the paper <span>＋</span></summary><figure class="paper-figure"><button class="figure-button" data-figure="assets/paper/real-world-sequences.png" data-caption="Temporal execution sequences for four real-world tasks" aria-label="Enlarge task execution sequences"><img src="assets/paper/real-world-sequences.png" width="1692" height="988" loading="lazy" alt="Ordered keyframes of egg transfer, grape pinching, tissue extraction and mung bean pouring."></button><figcaption>Figure 3 shows task execution sequences for egg transfer, grape pinching, tissue extraction and mung bean pouring.</figcaption></figure></details></section>
-<div class="simulation-band"><section class="wrap demo-section" id="simulation"><div class="section-header"><div><div class="section-kicker">04 / SIMULATION TASKS</div><h2>Eight tasks. Multiple views.<span>仿真任务</span></h2></div><span class="demo-count"><i></i> UniVTAC · 8 tasks</span></div><p class="demo-intro">An optical-tactile adaptation of the backbone, evaluated under standard simulated lighting. Full-width multi-view recordings preserve both the scene and tactile visualization.</p><div id="simulation-demos" class="demo-grid simulation-grid"></div><p class="evaluation-note">Simulation uses a shared ResNet-18 tactile encoder and cross-attention adapter, with a separate policy per task and single-stage fine-tuning. This differs from the two-stage real-world VASE/TACE evaluation.</p></section></div>
-<section class="wrap results-section" id="results"><div class="section-kicker">05 / EVALUATION</div><h2>Measured across tasks and lighting.<span>实验结果</span></h2><p class="section-intro">Real-world evaluation uses 20 trials per method, task and lighting condition. The unseen set comprises 20 lighting configurations; averages weight all four tasks equally.</p><div class="result-heading"><h3>Real-world full-task success</h3><div class="result-switch" role="group" aria-label="Lighting condition"><button type="button" data-lighting="standard" aria-pressed="false">Standard lighting</button><button type="button" data-lighting="unseen" aria-pressed="true">Unseen lighting</button></div></div><div class="results-panel"><div id="result-bars" class="result-bars" aria-label="Average success rates"></div><div class="table-scroll" tabindex="0" role="region" aria-label="Real-world success rate table"><table class="result-table"><caption id="real-table-caption">Unseen lighting · full-task success (%) · draft Table 3</caption><thead><tr><th scope="col">Method</th><th scope="col">Egg</th><th scope="col">Grape</th><th scope="col">Tissue</th><th scope="col">Beans</th><th scope="col">Average</th></tr></thead><tbody id="real-results-body"></tbody></table></div></div><p id="result-summary" class="result-summary" role="status" aria-live="polite"></p>
-<div class="benchmark-block"><div class="result-heading"><h3>UniVTAC simulation benchmark</h3><span class="small-badge">100 test rollouts / task</span></div><p class="section-intro">The optical-tactile adaptation reports 71.3% mean success. Published baselines retain their original configurations and protocols; N0-VTLA reports the highest average in this draft table.</p><div class="table-scroll" tabindex="0" role="region" aria-label="UniVTAC benchmark success table"><table class="result-table wide-table"><caption>Standard simulated lighting · full-task success (%) · draft Table 1</caption><thead><tr><th scope="col">Method</th><th scope="col">Lift Bottle</th><th scope="col">Pull-out Key</th><th scope="col">Lift Can</th><th scope="col">Put Bottle</th><th scope="col">Insert Hole</th><th scope="col">Insert HDMI</th><th scope="col">Insert Tube</th><th scope="col">Grasp Classify</th><th scope="col">Avg.</th></tr></thead><tbody>
-<tr><th scope="row">ACT (Vision Only) †</th><td>42.0</td><td>28.0</td><td>20.0</td><td>28.0</td><td>19.0</td><td>15.0</td><td>45.0</td><td>50.0</td><td>30.9</td></tr>
-<tr><th scope="row">ACT + UniVTAC †</th><td>71.0</td><td>46.0</td><td>29.0</td><td>31.0</td><td>24.0</td><td>28.0</td><td>56.0</td><td>99.0</td><td>48.0</td></tr>
-<tr><th scope="row">π₀.₅ ‡</th><td>100.0</td><td>35.0</td><td>6.0</td><td>34.0</td><td>25.0</td><td>8.0</td><td>74.0</td><td>49.0</td><td>41.4</td></tr>
-<tr><th scope="row">N0-VTLA ‡</th><td>99.0</td><td>99.0</td><td>88.0</td><td>60.0</td><td>95.0</td><td>25.0</td><td>99.0</td><td>100.0</td><td><strong>83.1</strong></td></tr>
-<tr class="ours"><th scope="row">TipDex-VTLA</th><td>100.0</td><td>40.0</td><td>68.0</td><td>100.0</td><td>52.0</td><td>20.0</td><td>90.0</td><td>100.0</td><td>71.3</td></tr></tbody></table></div><p class="table-footnote">† / ‡ Baseline markers retained from the draft. See Table 1 and its cited sources for the original configurations.</p></div>
-<div class="benchmark-block"><h3>What makes refinement work?</h3><p class="section-intro">Under unseen real-world lighting, removing the visual prior, tactile verification or gating reduces average success.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Component ablation results"><table class="result-table"><caption>Component ablation · success (%) · draft Table 4</caption><thead><tr><th scope="col">Configuration</th><th scope="col">Egg</th><th scope="col">Grape</th><th scope="col">Tissue</th><th scope="col">Beans</th><th scope="col">Average</th></tr></thead><tbody><tr class="ours"><th scope="row">Full TipDex-VTLA</th><td>70.0</td><td>90.0</td><td>60.0</td><td>75.0</td><td>73.8</td></tr><tr><th scope="row">w/o Visual Prior</th><td>45.0</td><td>40.0</td><td>55.0</td><td>30.0</td><td>42.5</td></tr><tr><th scope="row">w/o Tactile Verification</th><td>65.0</td><td>80.0</td><td>45.0</td><td>60.0</td><td>62.5</td></tr><tr><th scope="row">w/o Gating</th><td>30.0</td><td>45.0</td><td>40.0</td><td>45.0</td><td>40.0</td></tr></tbody></table></div></div>
-<div class="analysis-grid"><figure><button class="figure-button" data-figure="assets/paper/analysis-1.png" data-caption="VASE visual usability under global and local exposure changes" aria-label="Enlarge visual usability heatmap"><img src="assets/paper/analysis-1.png" loading="lazy" width="2032" height="1460" alt="Heatmap of predicted visual usability under global exposure offsets from minus six to plus six EV and local offsets from minus three to plus three EV."></button><figcaption><strong>Visual usability under exposure shifts.</strong> VASE responds jointly to global and local illumination changes. The nominal setting is outlined. (Draft Figure 4.)</figcaption></figure><figure><button class="figure-button" data-figure="assets/paper/analysis-2.png" data-caption="Correction magnitude versus visual usability" aria-label="Enlarge correction behavior plot"><img src="assets/paper/analysis-2.png" loading="lazy" width="1962" height="1398" alt="Scatter plot showing a non-monotonic relationship between visual usability and normalized correction magnitude."></button><figcaption><strong>Correction depends on execution context.</strong> The non-monotonic relationship shows that visual usability alone does not determine correction magnitude. (Draft Figure 5.)</figcaption></figure></div>
-<details class="setup-details"><summary>Platform and training details <span>＋</span></summary><div class="setup-grid"><div><b>Robot platform</b><p>Two RealMan RM75 7-DoF arms with Inspire RH56F2-E2-T1 hands; one overhead RealSense D405 and two wrist-mounted D435i cameras.</p></div><div><b>Tactile sensing</b><p>Seven piezoresistive arrays and 430 taxels per hand, sampled at 30 Hz. The tactile encoder uses the latest five pressure frames.</p></div><div><b>Training data</b><p>400 demonstrations per task: 200 for Stage 1 and 200 disjoint trajectories for Stage 2 (100 standard-light and 100 illumination-diverse demonstrations).</p></div><div><b>Action refinement</b><p>Action horizon H = 30; ten flow-integration steps, including four fast refinement steps. Model parameters remain fixed during deployment.</p></div></div></details></section>
-<div class="soft-band citation-band"><section class="wrap" id="citation"><div class="section-header"><div><div class="section-kicker">06 / REFERENCE</div><h2>Citation<span>引用</span></h2></div><button id="copy-citation" class="copy-button" type="button">Copy BibTeX ⧉</button></div><pre><code id="bibtex"></code></pre><p class="note">Unpublished manuscript. Bibliographic details may change as the draft is revised.</p><p id="feedback" role="status" aria-live="polite"></p></section></div></main>
-<footer class="wrap"><a class="brand" href="#"><span class="mark">✳</span> TipDex-VTLA</a><p>Research draft · Vision, touch and action.</p><a href="https://github.com/sez956/TipDex-VTLA" target="_blank" rel="noopener">Website source ↗</a></footer>
-<dialog id="lightbox" aria-label="Research figure"><button class="close-lightbox" aria-label="Close figure" type="button">×</button><img id="lightbox-image" alt=""><p id="lightbox-caption"></p></dialog><dialog id="demo-dialog" class="demo-dialog" aria-labelledby="demo-dialog-title"><div class="demo-dialog-heading"><div><span class="section-kicker">EXPERIMENT VIEW</span><h3 id="demo-dialog-title"></h3></div><button type="button" class="demo-dialog-close" aria-label="Close video">×</button></div><div id="demo-dialog-player"></div></dialog></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="TipDex-VTLA uses visual action reliability and verified touch to refine dexterous actions under changing light.">
+  <meta name="theme-color" content="#16282c">
+  <meta property="og:title" content="TipDex-VTLA · Learning When to Refine Actions with Touch">
+  <meta property="og:description" content="Watch dexterous manipulation under low light, bright light, and directional lighting.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://sez956.github.io/TipDex-VTLA/assets/paper/main-figure.png">
+  <meta property="og:url" content="https://sez956.github.io/TipDex-VTLA/">
+  <title>TipDex-VTLA · Learning When to Refine Actions with Touch</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="research.css?v=20261118">
+  <script defer src="content.js?v=20261118"></script>
+  <script defer src="app.js?v=20261118"></script>
+  <script defer src="demos.js?v=20261118"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="topbar" aria-label="Main navigation">
+    <a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> TipDex-VTLA</a>
+    <div class="navlinks"><a href="#lighting">Lighting demos</a><a href="#overview">Method</a><a href="#video">Real world</a><a href="#simulation">Simulation</a><a href="#results">Results</a><a href="#citation">Citation</a></div>
+  </nav>
+  <main id="main">
+    <header class="hero wrap paper-hero">
+      <p class="eyebrow"><span class="status-dot"></span> ROBOT MANIPULATION / VISION + TOUCH</p>
+      <h1><span class="gradient">TipDex-VTLA</span><br><span class="paper-title">Learning When to Refine Actions<br class="desktop-break"> with Touch for Dexterous Manipulation</span></h1>
+      <p class="tagline">When lighting changes, let verified touch guide the next action.</p>
+      <div class="authors" id="authors"></div>
+      <p class="note equal-note">* Equal contribution</p>
+      <div class="resources">
+        <a class="pill primary" href="#lighting">▷ &nbsp; Watch lighting demos</a>
+        <a class="pill" href="#results">Explore results ↘</a>
+        <a class="pill" href="https://github.com/sez956/TipDex-VTLA" target="_blank" rel="noopener">Website source ↗</a>
+      </div>
+      <div class="paper-stats" aria-label="Average full-task success">
+        <div><strong>87.5<span>%</span></strong><p>Standard lighting</p><small>4 real-world tasks</small></div>
+        <div><strong>73.8<span>%</span></strong><p>Unseen lighting</p><small>+42.5 pp over N0-VTLA</small></div>
+        <div><strong>84.9<span>%</span></strong><p>UniVTAC simulation</p><small>8 tasks · VASE and TACE enabled</small></div>
+      </div>
+      <figure class="paper-figure hero-figure">
+        <button class="figure-button" data-figure="assets/paper/main-figure.png" data-caption="Visual disturbances and the four real-world manipulation tasks" aria-label="Enlarge platform and task overview">
+          <img src="assets/paper/main-figure.png" width="1360" height="742" alt="A robot with two dexterous hands, four manipulation tasks and examples of visual disturbances.">
+        </button>
+        <figcaption>Our hardware and four tasks: egg transfer, grape pinching, tissue extraction and mung bean pouring.</figcaption>
+      </figure>
+    </header>
+
+    <div class="lighting-band">
+      <section class="wrap lighting-section" id="lighting" aria-labelledby="lighting-title">
+        <div class="lighting-header">
+          <div><div class="section-kicker">01 / REAL-WORLD LIGHTING DEMOS</div><h2 id="lighting-title">When the light changes.<span>灯光干扰实验</span></h2></div>
+          <p>Six recordings across two tasks. Each clip aligns three camera views with the tactile heatmap.</p>
+        </div>
+        <div id="lighting-gallery"></div>
+        <noscript><p>Open the videos directly: <a href="assets/lighting/beans-low.mp4">Low light</a> · <a href="assets/lighting/beans-side.mp4">Side lighting</a> · <a href="assets/lighting/beans-bright.mp4">Bright light</a> · <a href="assets/lighting/tissue-side.mp4">Tissue, side lighting</a> · <a href="assets/lighting/tissue-bright.mp4">Tissue, bright light</a> · <a href="assets/lighting/beans-changing.mp4">Changing color light (contains flashes)</a>.</p></noscript>
+        <p class="lighting-footnote">These clips illustrate lighting disturbances. See the <a href="#results">evaluation</a> for the full trial results.</p>
+      </section>
+    </div>
+
+    <section class="wrap abstract-section" id="abstract">
+      <div class="section-kicker">02 / THE BIG PICTURE</div>
+      <h2>What happens when vision becomes unreliable?<span>研究摘要</span></h2>
+      <p id="abstract-text" class="abstract-text"></p>
+    </section>
+
+    <div class="soft-band">
+      <section class="wrap" id="overview">
+        <div class="section-kicker">03 / HOW IT WORKS</div>
+        <h2>Refine the actions that remain.<span>方法概览</span></h2>
+        <p class="section-intro">A 2 Hz vision–language branch caches context and starts the action flow. A 30 Hz branch uses current touch to resume the flow and refine only replaceable actions that have yet to execute.</p>
+        <figure class="paper-figure">
+          <button class="figure-button" data-figure="assets/paper/architecture-v2.webp" data-caption="Slow and fast branches with delayed tactile verification and gated feature correction" aria-label="Enlarge model architecture">
+            <img src="assets/paper/architecture-v2.webp" width="1908" height="954" loading="lazy" alt="TipDex-VTLA architecture showing the slow VLM and VASE branch, the fast tactile branch, and TACE verification and feature correction.">
+          </button>
+          <figcaption>The fast branch refines actions within their original time slots. Committed actions stay fixed.</figcaption>
+        </figure>
+        <div class="method-cards">
+          <article><span class="module-tag">01 / VASE</span><h3>Estimate visual reliability</h3><p>Compare a frozen reference policy’s actions under paired lighting changes during training. At runtime, VASE estimates action reliability from the current observation.</p></article>
+          <article><span class="module-tag">02 / TACE</span><h3>Check the touch forecast</h3><p>Match a cached tactile prediction to the measurement at the same time, using only forecasts consistent with the commands that were executed.</p></article>
+          <article><span class="module-tag">03 / REFINEMENT</span><h3>Gate the correction</h3><p>Visual reliability and forecast error control the strength of a bounded feature correction. Current tactile and execution features determine the correction itself.</p></article>
+        </div>
+        <div class="training-strip"><div><b>Stage 1</b><span>Train the backbone and tactile forecaster on 200 trajectories.</span></div><span class="training-arrow" aria-hidden="true">→</span><div><b>Stage 2</b><span>Freeze those modules and train VASE and TACE on 100 more trajectories paired with perturbed images.</span></div></div>
+        <details class="sequence-details">
+          <summary>See the four refinement regimes <span aria-hidden="true">＋</span></summary>
+          <p class="section-intro">With forecast agreement, high visual reliability favors preserving the nominal action and low reliability favors visual compensation. With forecast disagreement, high reliability favors contact correction and low reliability favors joint correction.</p>
+          <figure class="paper-figure">
+            <button class="figure-button" data-figure="assets/paper/refinement-regimes.webp" data-caption="Four refinement regimes: visual compensation, nominal preservation, joint correction, and contact correction" aria-label="Enlarge the four refinement regimes">
+              <img src="assets/paper/refinement-regimes.webp" width="3831" height="2096" loading="lazy" alt="Four regimes organize action refinement by visual reliability and agreement between predicted and observed touch.">
+            </button>
+          </figure>
+        </details>
+        <details class="sequence-details">
+          <summary>See the two-stage training pipeline <span aria-hidden="true">＋</span></summary>
+          <figure class="paper-figure figure-compact">
+            <button class="figure-button" data-figure="assets/paper/training-v2.webp" data-caption="Stage 1 trains the backbone and forecaster; Stage 2 trains visual reliability and tactile refinement" aria-label="Enlarge two-stage training pipeline">
+              <img src="assets/paper/training-v2.webp" width="1446" height="888" loading="lazy" alt="Training diagram showing future touch prediction and paired action targets under changed illumination.">
+            </button>
+          </figure>
+        </details>
+      </section>
+    </div>
+
+    <section class="wrap demo-section" id="video">
+      <div class="section-header"><div><div class="section-kicker">04 / REAL-WORLD EXPERIMENTS</div><h2>Four tasks, four kinds of contact.<span>实物实验</span></h2></div><span class="demo-count"><i></i> 4 task demos</span></div>
+      <p class="demo-intro">From a fragile egg to loose grains, the robot handles objects that demand different kinds of touch.</p>
+      <div id="real-demos" class="demo-grid real-grid"></div>
+      <details class="sequence-details"><summary>View the four tasks step by step <span aria-hidden="true">＋</span></summary>
+        <figure class="paper-figure">
+          <button class="figure-button" data-figure="assets/paper/real-world-v2.webp" data-caption="Real-world task progress under standard lighting" aria-label="Enlarge real-world execution sequences">
+            <img src="assets/paper/real-world-v2.webp" width="1278" height="719" loading="lazy" alt="Keyframes of egg transfer, grape pinching, tissue extraction and mung bean pouring.">
+          </button>
+          <figcaption>Representative executions under standard lighting, shown in Figure 4.</figcaption>
+        </figure>
+      </details>
+    </section>
+
+    <div class="simulation-band">
+      <section class="wrap demo-section" id="simulation">
+        <div class="section-header"><div><div class="section-kicker">05 / SIMULATION</div><h2>Eight tasks in UniVTAC.<span>仿真任务</span></h2></div><span class="demo-count"><i></i> Optical tactile sensing</span></div>
+        <p class="demo-intro">In simulation, TipDex-VTLA uses the UniVTAC optical tactile encoder with both VASE and TACE enabled. TACE verifies predicted tactile images against time-aligned measurements.</p>
+        <div id="simulation-demos" class="demo-grid simulation-grid"></div>
+      </section>
+    </div>
+
+    <section class="wrap results-section" id="results">
+      <div class="section-kicker">06 / EVALUATION</div><h2>Measured across tasks and lighting.<span>实验结果</span></h2>
+      <p class="section-intro">Each real-world method ran 20 trials per task under standard lighting and 20 under unseen lighting. The unseen set includes 10 combinations of asymmetric light and color temperature, five low-light settings and five bright-light settings.</p>
+      <div class="result-heading"><h3>Real-world full-task success</h3><div class="result-switch" role="group" aria-label="Lighting condition for real-world results"><button type="button" data-lighting="standard" aria-pressed="false">Standard lighting</button><button type="button" data-lighting="unseen" aria-pressed="true">Unseen lighting</button></div></div>
+      <div class="results-panel">
+        <div id="result-bars" class="result-bars" aria-label="Average success rates"></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Real-world success rate table"><table class="result-table"><caption id="real-table-caption"></caption><thead><tr><th scope="col">Method</th><th scope="col">Egg</th><th scope="col">Grape</th><th scope="col">Tissue</th><th scope="col">Beans</th><th scope="col">Average</th></tr></thead><tbody id="real-results-body"></tbody></table></div>
+      </div>
+      <p id="result-summary" class="result-summary" role="status"></p>
+
+      <div class="benchmark-block">
+        <div class="result-heading"><h3>UniVTAC simulation benchmark</h3><span class="small-badge">100 test rollouts / task</span></div>
+        <p class="section-intro">The full adapted model averages 84.9% across eight tasks. Published baseline results retain their reported configurations.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="UniVTAC benchmark success table"><table class="result-table wide-table"><caption>Full-task success (%) under standard simulated lighting · Table 1</caption><thead><tr><th scope="col">Method</th><th scope="col">Lift Bottle</th><th scope="col">Pull-out Key</th><th scope="col">Lift Can</th><th scope="col">Put Bottle</th><th scope="col">Insert Hole</th><th scope="col">Insert HDMI</th><th scope="col">Insert Tube</th><th scope="col">Grasp Classify</th><th scope="col">Avg.</th></tr></thead><tbody id="simulation-results-body"></tbody></table></div>
+      </div>
+
+      <div class="benchmark-block">
+        <div class="result-heading"><h3>What makes refinement work?</h3><div class="result-switch" role="group" aria-label="Lighting condition for component ablations"><button type="button" data-lighting="standard" aria-pressed="false">Standard lighting</button><button type="button" data-lighting="unseen" aria-pressed="true">Unseen lighting</button></div></div>
+        <p class="section-intro">Removing VASE has a larger effect under unseen lighting. Tactile verification and the gate head also help under standard lighting.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Component ablation results"><table class="result-table"><caption id="ablation-table-caption"></caption><thead><tr><th scope="col">Configuration</th><th scope="col">Egg</th><th scope="col">Grape</th><th scope="col">Tissue</th><th scope="col">Beans</th><th scope="col">Average</th></tr></thead><tbody id="ablation-results-body"></tbody></table></div>
+      </div>
+
+      <div class="benchmark-block">
+        <h3>How exposure affects trajectory error</h3>
+        <p class="section-intro">Compared with disabling feature correction, the full model reduces trajectory RMSE by 24.2% at −3 EV and 13.0% at +3 EV.</p>
+        <figure class="paper-figure trajectory-figure">
+          <button class="figure-button" data-figure="assets/paper/trajectory-analysis.webp" data-caption="Visual reliability and trajectory error under low light and overexposure" aria-label="Enlarge exposure and trajectory error comparison">
+            <img src="assets/paper/trajectory-analysis.webp" width="7218" height="1976" loading="lazy" alt="Trajectory RMSE and VASE reliability across low-light and overexposed observations; the full model has lower error than both ablations at the exposure extremes.">
+          </button>
+          <figcaption>Figure 5 compares the full model with variants that remove forecast verification or feature correction. EV offsets are relative to the 0 EV reference.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="soft-band citation-band"><section class="wrap" id="citation">
+      <div class="section-header"><div><div class="section-kicker">07 / REFERENCE</div><h2>Citation<span>引用</span></h2></div><button id="copy-citation" class="copy-button" type="button">Copy BibTeX ⧉</button></div>
+      <pre><code id="bibtex"></code></pre><p class="note">Unpublished manuscript. Bibliographic details may change as the draft is revised.</p><p id="feedback" role="status"></p>
+    </section></div>
+  </main>
+  <footer class="wrap"><a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> TipDex-VTLA</a><p>Vision, touch and action.</p><a href="https://github.com/sez956/TipDex-VTLA" target="_blank" rel="noopener">Website source ↗</a></footer>
+  <dialog id="lightbox" aria-label="Research figure"><button class="close-lightbox" aria-label="Close figure" type="button">×</button><img id="lightbox-image" alt=""><p id="lightbox-caption"></p></dialog>
+  <dialog id="demo-dialog" class="demo-dialog" aria-labelledby="demo-dialog-title"><div class="demo-dialog-heading"><div><span class="section-kicker">EXPERIMENT VIEW</span><h3 id="demo-dialog-title"></h3></div><button type="button" class="demo-dialog-close" aria-label="Close video">×</button></div><div id="demo-dialog-player"></div></dialog>
+</body>
+</html>

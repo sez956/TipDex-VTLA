@@ -12,19 +12,19 @@ Run `python -m http.server 8765` in this folder, then visit http://localhost:876
 
 ## Update
 
-- `content.js`: author list, abstract, real-world result data and demonstration cards.
-- `index.html`: method summary, simulation results, ablations and figure descriptions.
+- `content.js`: author list, abstract, demo catalog and evaluation data (Tables 1–3).
+- `index.html`, `research.css`: homepage sections and lighting gallery layout.
 - `assets/paper/`: figures approved for display; no manuscript PDF is distributed.
 - `assets/demos/`: four real-world videos, eight simulation videos and their posters.
-- All four real-world task videos are available, including mung bean pouring.
+- `assets/lighting/`: six excerpts of tissue extraction and mung bean pouring under lighting disturbances, with three RGB views and a tactile heatmap per video.
 
-Real-world videos are H.264 / AAC web copies at their original 1440×1440 resolution. All videos load on demand. Source recordings are preserved outside this repository.
+All clips are H.264 MP4 web copies and load on demand. Five lighting excerpts play at 3× speed; the flashing-light excerpt is shown at 1× and has a playback warning. Source recordings are preserved outside this repository.
 
 ## Results and attribution
 
-Text, authors, figures and numerical results are based on the author's research draft. Real-world and simulation results use different evaluation configurations, described on the page. Published simulation baselines retain their original configurations. The simulation adaptation is single-stage optical-tactile fine-tuning; it is not presented as the complete two-stage real-world VASE/TACE evaluation.
+The results and method figures reflect the updated manuscript. Real-world and simulation results use different evaluation configurations, described on the page. Both VASE and TACE are enabled in the updated optical-tactile simulation evaluation. Published simulation baselines retain their reported configurations. The lighting clips illustrate disturbances and are separate from the aggregate results.
 
-The automatically numbered simulation downloads were matched to task labels by visual inspection; confirm labels against the original task recordings before a formal release. The result tables were transcribed from draft Tables 1, 3 and 4.
+The automatically numbered simulation downloads were matched to task labels by visual inspection.
 
 ## Deployment
 

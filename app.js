@@ -5,26 +5,45 @@
   el('abstract-text').textContent = p.abstract;
   el('bibtex').textContent = p.bibtex;
   p.authors.forEach(author => { const span = document.createElement('span'); span.textContent = author; el('authors').append(span); });
+  const isOurs = label => label === p.name || label === 'Full ' + p.name;
+  function resultRow([label, ...values]) {
+    const row = document.createElement('tr');
+    if (isOurs(label)) row.className = 'ours';
+    const heading = document.createElement('th'); heading.scope = 'row'; heading.textContent = label;
+    row.append(heading);
+    values.forEach(value => { const cell = document.createElement('td'); cell.textContent = value.toFixed(1); row.append(cell); });
+    return row;
+  }
+  const simulationBody = el('simulation-results-body');
+  p.simulationResults.forEach(group => {
+    const row = document.createElement('tr'); row.className = 'table-group';
+    const heading = document.createElement('th'); heading.colSpan = group.rows[0].length; heading.textContent = group.label;
+    row.append(heading);
+    simulationBody.append(row, ...group.rows.map(resultRow));
+  });
   function renderResults(condition) {
     const data = p.realResults[condition];
     const bars = el('result-bars'); bars.replaceChildren();
-    const body = el('real-results-body'); body.replaceChildren();
-    p.methods.forEach((method, index) => {
-      const value = data[index][4];
-      const row = document.createElement('div'); row.className = 'bar-row' + (index === 4 ? ' ours' : '');
+    el('real-results-body').replaceChildren(...data.map(resultRow));
+    el('ablation-results-body').replaceChildren(...p.ablationResults[condition].map(resultRow));
+    data.forEach(entry => {
+      const [method] = entry;
+      const value = entry.at(-1);
+      const row = document.createElement('div'); row.className = 'bar-row' + (isOurs(method) ? ' ours' : '');
       const label = document.createElement('span'); label.className = 'bar-name'; label.textContent = method;
       const track = document.createElement('span'); track.className = 'bar-track'; track.setAttribute('aria-hidden', 'true');
       const fill = document.createElement('span'); fill.className = 'bar-fill'; fill.style.width = value + '%'; track.append(fill);
       const number = document.createElement('span'); number.className = 'bar-value'; number.textContent = value.toFixed(1) + '%';
       row.append(label, track, number); bars.append(row);
-      const tr = document.createElement('tr'); if (index === 4) tr.className = 'ours';
-      const th = document.createElement('th'); th.scope = 'row'; th.textContent = method; tr.append(th);
-      data[index].forEach(value => { const td = document.createElement('td'); td.textContent = value.toFixed(1); tr.append(td); });
-      body.append(tr);
     });
     document.querySelectorAll('[data-lighting]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.lighting === condition)));
-    el('real-table-caption').textContent = (condition === 'unseen' ? 'Unseen lighting' : 'Standard lighting') + ' · full-task success (%) · draft Table 3';
-    el('result-summary').textContent = condition === 'unseen' ? 'TipDex-VTLA: 73.8% average success, versus 22.5% for T-Rex under unseen lighting (+51.3 percentage points, rounded).' : 'TipDex-VTLA: 87.5% average success, versus 71.3% for T-Rex under standard lighting (+16.2 percentage points using the reported averages).';
+    const lighting = condition === 'unseen' ? 'Unseen lighting' : 'Standard lighting';
+    el('real-table-caption').textContent = lighting + ' · full-task success (%) · Table 2';
+    el('ablation-table-caption').textContent = lighting + ' · full-task success (%) · Table 3';
+    const model = data.find(([method]) => isOurs(method));
+    const bestBaseline = data.filter(([method]) => !isOurs(method)).sort((first, second) => second.at(-1) - first.at(-1))[0];
+    const advantage = (model.at(-1) - bestBaseline.at(-1)).toFixed(1);
+    el('result-summary').textContent = `${model[0]} averages ${model.at(-1).toFixed(1)}% under ${lighting.toLowerCase()}, ${advantage} percentage points above ${bestBaseline[0]} (${bestBaseline.at(-1).toFixed(1)}%).`;
   }
   document.querySelectorAll('[data-lighting]').forEach(button => button.addEventListener('click', () => renderResults(button.dataset.lighting)));
   renderResults('unseen');

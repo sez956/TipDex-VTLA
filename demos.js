@@ -45,7 +45,14 @@
     document.getElementById('demo-dialog-title').textContent = item.title;
     const stage = make('div', 'demo-modal-stage');
     const video = player(item); watchErrors(video); stage.append(video);
-    dialogPlayer.replaceChildren(stage); dialog.showModal(); start(video, item);
+    dialogPlayer.replaceChildren(stage); dialog.showModal();
+    if (item.warning) {
+      const warning = make('p', 'modal-warning', item.warning);
+      warning.id = 'modal-video-warning';
+      dialogPlayer.prepend(warning);
+      video.setAttribute('aria-describedby', warning.id);
+      video.src = url(item.src);
+    } else start(video, item);
   }
   function render(items, id, kind) {
     const target = document.getElementById(id); target.replaceChildren();
@@ -83,8 +90,67 @@
       info.append(footer); card.append(stage, info); target.append(card);
     });
   }
+  function renderLighting(clips) {
+    if (!clips.length) return;
+    const gallery = document.getElementById('lighting-gallery');
+    const panel = make('div', 'lighting-panel'); panel.id = 'lighting-player';
+    const picker = make('div', 'lighting-picker');
+    picker.setAttribute('role', 'group'); picker.setAttribute('aria-label', 'Choose a lighting recording');
+    const live = make('p', 'visually-hidden'); live.setAttribute('role', 'status');
+    let active = -1;
+
+    function select(index) {
+      if (index === active) return;
+      active = index;
+      const previous = panel.querySelector('video');
+      if (previous) { previous.pause(); previous.removeAttribute('src'); previous.load(); }
+      const clip = clips[index];
+      const item = { ...clip, title: `${clip.title} · ${clip.condition}`, src: `assets/lighting/${clip.id}.mp4`, poster: `assets/lighting/${clip.id}.jpg` };
+      Array.from(picker.children).forEach((button, position) => button.setAttribute('aria-pressed', String(index === position)));
+
+      const stage = make('div', 'lighting-stage demo-stage');
+      const video = player(item); video.controls = false; watchErrors(video);
+      const play = make('button', 'demo-play'); play.type = 'button';
+      play.setAttribute('aria-label', `Play ${item.title}`);
+      play.innerHTML = '<span class="demo-play-circle">' + svgPlay + '</span><span class="demo-play-label">Play recording</span>';
+      play.onclick = () => start(video, item);
+      video.addEventListener('play', () => { play.hidden = true; video.controls = true; });
+      video.addEventListener('ended', () => { play.hidden = false; video.controls = false; });
+      stage.append(video, play);
+
+      const meta = make('div', 'lighting-meta');
+      const details = make('div', 'lighting-details');
+      details.append(make('p', 'lighting-condition', `${clip.condition} / ${clip.label}`), make('h3', '', clip.title), make('p', 'lighting-timing', `${clip.duration} · ${clip.speed} playback · 4 views`));
+      const expand = make('button', 'lighting-expand'); expand.type = 'button';
+      expand.innerHTML = svgExpand + '<span>Enlarge</span>';
+      expand.setAttribute('aria-label', `Enlarge ${item.title}`); expand.onclick = () => enlarge(item);
+      meta.append(details, expand);
+      panel.replaceChildren(stage, meta);
+      if (clip.warning) {
+        const warning = make('p', 'lighting-warning', clip.warning); warning.id = 'lighting-video-warning';
+        panel.prepend(warning);
+        play.setAttribute('aria-describedby', warning.id);
+        expand.setAttribute('aria-describedby', warning.id);
+      }
+      live.textContent = `${item.title} selected. ${clip.warning || ''}`;
+    }
+
+    clips.forEach((clip, index) => {
+      const button = make('button', 'lighting-option'); button.type = 'button';
+      button.setAttribute('aria-controls', panel.id); button.setAttribute('aria-pressed', 'false');
+      const poster = make('img', 'lighting-thumbnail'); poster.src = `assets/lighting/${clip.id}.jpg`; poster.alt = ''; poster.loading = 'lazy';
+      const text = make('span', 'lighting-option-text');
+      text.append(make('strong', '', clip.condition), make('small', '', clip.title));
+      button.append(poster, text, make('span', 'lighting-option-duration', clip.duration));
+      button.onclick = () => select(index);
+      picker.append(button);
+    });
+    gallery.append(panel, picker, live);
+    select(0);
+  }
   render(config.realDemos || [], 'real-demos', 'real');
   render(config.simulationDemos || [], 'simulation-demos', 'simulation');
+  renderLighting(config.lightingDemos || []);
   document.addEventListener('play', event => {
     if (event.target.tagName !== 'VIDEO') return;
     document.querySelectorAll('video').forEach(video => { if (video !== event.target) video.pause(); });

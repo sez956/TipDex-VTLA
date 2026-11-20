@@ -58,8 +58,7 @@
     const target = document.getElementById(id); target.replaceChildren();
     const labels = {
       real: ['实物', 'REAL WORLD'],
-      simulation: ['仿真', 'SIMULATION'],
-      failure: ['失败案例', 'FAILURE CASE']
+      simulation: ['仿真', 'SIMULATION']
     }[kind];
     items.forEach((item, index) => {
       const card = make('article', 'demo-card' + (!url(item.src) ? ' coming-card' : ''));
@@ -90,7 +89,7 @@
         const expand = make('button', 'demo-expand', ''); expand.type = 'button';
         expand.innerHTML = svgExpand + '<span>放大查看</span>';
         expand.setAttribute('aria-label', '放大查看' + item.title);
-        expand.onclick = () => enlarge(kind === 'failure' ? { ...item, title: `${item.title} · ${item.task}` } : item);
+        expand.onclick = () => enlarge(item);
         footer.append(expand);
       } else footer.append(make('span', 'coming-status', '视频准备中'));
       info.append(footer); card.append(stage, info); target.append(card);
@@ -100,7 +99,10 @@
     if (!clips.length) return;
     const gallery = document.getElementById('lighting-gallery');
     const panel = make('div', 'lighting-panel'); panel.id = 'lighting-player';
-    const picker = make('div', 'lighting-picker');
+    const sidebar = make('div', 'lighting-sidebar');
+    const groups = make('div', 'lighting-groups');
+    groups.setAttribute('role', 'group'); groups.setAttribute('aria-label', 'Filter by task');
+    const picker = make('div', 'lighting-picker'); picker.id = 'lighting-options';
     picker.setAttribute('role', 'group'); picker.setAttribute('aria-label', 'Choose a lighting recording');
     const live = make('p', 'visually-hidden'); live.setAttribute('role', 'status');
     let active = -1;
@@ -112,7 +114,7 @@
       if (previous) { previous.pause(); previous.removeAttribute('src'); previous.load(); }
       const clip = clips[index];
       const item = { ...clip, title: `${clip.title} · ${clip.condition}`, src: `assets/lighting/${clip.id}.mp4`, poster: `assets/lighting/${clip.id}.jpg` };
-      Array.from(picker.children).forEach((button, position) => button.setAttribute('aria-pressed', String(index === position)));
+      Array.from(picker.children).forEach(button => button.setAttribute('aria-pressed', String(index === Number(button.dataset.clipIndex))));
 
       const stage = make('div', 'lighting-stage demo-stage');
       const video = player(item); video.controls = false; watchErrors(video);
@@ -143,6 +145,7 @@
 
     clips.forEach((clip, index) => {
       const button = make('button', 'lighting-option'); button.type = 'button';
+      button.dataset.clipIndex = index;
       button.setAttribute('aria-controls', panel.id); button.setAttribute('aria-pressed', 'false');
       const poster = make('img', 'lighting-thumbnail'); poster.src = `assets/lighting/${clip.id}.jpg`; poster.alt = ''; poster.loading = 'lazy';
       const text = make('span', 'lighting-option-text');
@@ -151,11 +154,23 @@
       button.onclick = () => select(index);
       picker.append(button);
     });
-    gallery.append(panel, picker, live);
-    select(0);
+    [...new Set(clips.map(clip => clip.title))].forEach(task => {
+      const button = make('button', 'lighting-group', task); button.type = 'button';
+      button.setAttribute('aria-controls', picker.id);
+      button.setAttribute('aria-pressed', String(task === clips[0].title));
+      button.onclick = () => filterByTask(task);
+      groups.append(button);
+    });
+    function filterByTask(task) {
+      Array.from(groups.children).forEach(button => button.setAttribute('aria-pressed', String(button.textContent === task)));
+      Array.from(picker.children).forEach(button => { button.hidden = clips[Number(button.dataset.clipIndex)].title !== task; });
+      select(clips.findIndex(clip => clip.title === task));
+    }
+    sidebar.append(groups, picker);
+    gallery.append(panel, sidebar, live);
+    filterByTask(clips[0].title);
   }
   render(config.realDemos || [], 'real-demos', 'real');
-  render(config.failureDemos || [], 'failure-demos', 'failure');
   render(config.simulationDemos || [], 'simulation-demos', 'simulation');
   renderLighting(config.lightingDemos || []);
   document.addEventListener('play', event => {

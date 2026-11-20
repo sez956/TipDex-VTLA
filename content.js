@@ -12,11 +12,15 @@ window.PROJECT = {
   ],
   "abstract": "A change in lighting can shift a robot’s predicted actions even when the object and contact state stay the same. TipDex-VTLA addresses this during execution. Visual Action Sensitivity Estimation (VASE) learns to predict how reliable the visual input is for action by measuring a frozen policy’s sensitivity to lighting changes. Tactile Anticipation and Correction during Execution (TACE) checks time-aligned touch forecasts against measurements and uses the discrepancy, together with visual reliability, to gate bounded corrections to actions that have yet to execute. Across four physical tasks, TipDex-VTLA averages 87.5% full-task success under standard lighting and 73.8% under unseen lighting. With both modules enabled, the optical-tactile adaptation achieves 84.9% mean success on eight UniVTAC tasks.",
   "lightingDemos": [
+    {"id": "egg-light-drop", "title": "Egg Transfer", "condition": "Lights dim mid-task", "label": "中途变暗", "duration": "00:29", "speed": "1.5×"},
+    {"id": "egg-color-shift", "title": "Egg Transfer", "condition": "Changing colored light", "label": "彩色灯光变化", "duration": "00:43", "speed": "1×", "warning": "This clip contains flashing lights."},
+    {"id": "grape-light-drop", "title": "Grape Pinching", "condition": "Lights dim mid-task", "label": "中途变暗", "duration": "00:23", "speed": "1.5×"},
+    {"id": "grape-color-shift", "title": "Grape Pinching", "condition": "Changing colored light", "label": "彩色灯光变化", "duration": "00:35", "speed": "1×", "warning": "This clip contains flashing lights."},
+    {"id": "tissue-side", "title": "Tissue Extraction", "condition": "Side lighting", "label": "侧光", "duration": "00:31", "speed": "3×"},
+    {"id": "tissue-bright", "title": "Tissue Extraction", "condition": "Bright light", "label": "强光", "duration": "00:31", "speed": "3×"},
     {"id": "beans-low", "title": "Mung Bean Pouring", "condition": "Low light", "label": "暗光", "duration": "00:49", "speed": "3×"},
     {"id": "beans-side", "title": "Mung Bean Pouring", "condition": "Side lighting", "label": "侧光", "duration": "00:49", "speed": "3×"},
     {"id": "beans-bright", "title": "Mung Bean Pouring", "condition": "Bright light", "label": "强光", "duration": "00:49", "speed": "3×"},
-    {"id": "tissue-side", "title": "Tissue Extraction", "condition": "Side lighting", "label": "侧光", "duration": "00:31", "speed": "3×"},
-    {"id": "tissue-bright", "title": "Tissue Extraction", "condition": "Bright light", "label": "强光", "duration": "00:31", "speed": "3×"},
     {"id": "beans-changing", "title": "Mung Bean Pouring", "condition": "Flashing color light", "label": "彩色闪光", "duration": "02:28", "speed": "1×", "warning": "This clip contains flashing lights."}
   ],
   "realDemos": [
@@ -51,44 +55,6 @@ window.PROJECT = {
       "src": "assets/demos/mung-bean-h264.mp4",
       "poster": "assets/demos/mung-bean.jpg",
       "duration": "01:22"
-    }
-  ],
-  "failureDemos": [
-    {
-      "title": "Egg Transfer",
-      "task": "Object displaced · 鸡蛋碰离底座",
-      "caption": "The hand nudges the egg off its holder, and the egg stays on the platform.",
-      "src": "assets/failures/egg-displaced.mp4",
-      "poster": "assets/failures/egg-displaced.jpg",
-      "duration": "00:18",
-      "speed": "1.5×"
-    },
-    {
-      "title": "Grape Pinching",
-      "task": "Grape not lifted · 未夹起葡萄",
-      "caption": "The fingers close around the grape, but the hand withdraws without lifting it.",
-      "src": "assets/failures/grape-not-lifted.mp4",
-      "poster": "assets/failures/grape-not-lifted.jpg",
-      "duration": "00:16",
-      "speed": "1.5×"
-    },
-    {
-      "title": "Tissue Extraction",
-      "task": "Tissue left in dispenser · 纸巾未抽出",
-      "caption": "The hand pulls the exposed tissue, but it stays in the dispenser and the target tray remains empty.",
-      "src": "assets/failures/tissue-not-extracted.mp4",
-      "poster": "assets/failures/tissue-not-extracted.jpg",
-      "duration": "00:26",
-      "speed": "2.5×"
-    },
-    {
-      "title": "Mung Bean Pouring",
-      "task": "Spill during pouring · 绿豆洒出",
-      "caption": "Some beans land in the jar, while others scatter onto the work surface.",
-      "src": "assets/failures/mung-bean-spill.mp4",
-      "poster": "assets/failures/mung-bean-spill.jpg",
-      "duration": "00:20",
-      "speed": "2×"
     }
   ],
   "simulationDemos": [

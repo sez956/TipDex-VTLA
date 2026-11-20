@@ -16,16 +16,16 @@
   <title>TipDex-VTLA · Learning When to Refine Actions with Touch</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="research.css?v=failure-cases-1">
-  <script defer src="content.js?v=failure-cases-1"></script>
+  <link rel="stylesheet" href="research.css?v=lighting-four-tasks">
+  <script defer src="content.js?v=lighting-four-tasks"></script>
   <script defer src="app.js?v=20261118"></script>
-  <script defer src="demos.js?v=failure-cases-1"></script>
+  <script defer src="demos.js?v=lighting-four-tasks"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <nav class="topbar" aria-label="Main navigation">
     <a class="brand" href="#"><span class="mark" aria-hidden="true">✳</span> TipDex-VTLA</a>
-    <div class="navlinks"><a href="#lighting">Lighting demos</a><a href="#overview">Method</a><a href="#video">Real world</a><a href="#failure-cases">Failure cases</a><a href="#simulation">Simulation</a><a href="#results">Results</a><a href="#citation">Citation</a></div>
+    <div class="navlinks"><a href="#lighting">Lighting demos</a><a href="#overview">Method</a><a href="#video">Real world</a><a href="#simulation">Simulation</a><a href="#results">Results</a><a href="#citation">Citation</a></div>
   </nav>
   <main id="main">
     <header class="hero wrap paper-hero">
@@ -56,10 +56,15 @@
       <section class="wrap lighting-section" id="lighting" aria-labelledby="lighting-title">
         <div class="lighting-header">
           <div><div class="section-kicker">01 / REAL-WORLD LIGHTING DEMOS</div><h2 id="lighting-title">When the light changes.<span>灯光干扰实验</span></h2></div>
-          <p>Six recordings across two tasks. Each clip aligns three camera views with the tactile heatmap.</p>
+          <p>Ten recordings across four tasks. Filter by task to compare light changes with synchronized camera views and tactile heatmaps.</p>
         </div>
         <div id="lighting-gallery"></div>
-        <noscript><p>Open the videos directly: <a href="assets/lighting/beans-low.mp4">Low light</a> · <a href="assets/lighting/beans-side.mp4">Side lighting</a> · <a href="assets/lighting/beans-bright.mp4">Bright light</a> · <a href="assets/lighting/tissue-side.mp4">Tissue, side lighting</a> · <a href="assets/lighting/tissue-bright.mp4">Tissue, bright light</a> · <a href="assets/lighting/beans-changing.mp4">Changing color light (contains flashes)</a>.</p></noscript>
+        <noscript>
+          <p>Egg transfer: <a href="assets/lighting/egg-light-drop.mp4">Lights dim mid-task</a> · <a href="assets/lighting/egg-color-shift.mp4">Changing colored light (contains flashes)</a>.</p>
+          <p>Grape pinching: <a href="assets/lighting/grape-light-drop.mp4">Lights dim mid-task</a> · <a href="assets/lighting/grape-color-shift.mp4">Changing colored light (contains flashes)</a>.</p>
+          <p>Tissue extraction: <a href="assets/lighting/tissue-side.mp4">Side lighting</a> · <a href="assets/lighting/tissue-bright.mp4">Bright light</a>.</p>
+          <p>Mung bean pouring: <a href="assets/lighting/beans-low.mp4">Low light</a> · <a href="assets/lighting/beans-side.mp4">Side lighting</a> · <a href="assets/lighting/beans-bright.mp4">Bright light</a> · <a href="assets/lighting/beans-changing.mp4">Changing colored light (contains flashes)</a>.</p>
+        </noscript>
         <p class="lighting-footnote">These clips illustrate lighting disturbances. See the <a href="#results">evaluation</a> for the full trial results.</p>
       </section>
     </div>
@@ -108,7 +113,6 @@
       <div class="section-header"><div><div class="section-kicker">04 / REAL-WORLD EXPERIMENTS</div><h2>Four tasks, four kinds of contact.<span>实物实验</span></h2></div><span class="demo-count"><i></i> 4 task demos</span></div>
       <p class="demo-intro">From a fragile egg to loose grains, the robot handles objects that demand different kinds of touch.</p>
       <div id="real-demos" class="demo-grid real-grid"></div>
-      <p class="failure-jump"><a href="#failure-cases">See what went wrong in the four tasks ↓</a></p>
       <details class="sequence-details"><summary>View the four tasks step by step <span aria-hidden="true">＋</span></summary>
         <figure class="paper-figure">
           <button class="figure-button" data-figure="assets/paper/real-world-v2.webp" data-caption="Real-world task progress under standard lighting" aria-label="Enlarge real-world execution sequences">
@@ -118,19 +122,6 @@
         </figure>
       </details>
     </section>
-
-    <div class="failure-band">
-      <section class="wrap demo-section" id="failure-cases" aria-labelledby="failure-title">
-        <div class="section-header">
-          <div><div class="section-kicker">REAL-WORLD FAILURE ANALYSIS</div><h2 id="failure-title">Four ways a trial can fail.<span>真机失败案例</span></h2></div>
-          <span class="demo-count"><i></i> 1 example per task</span>
-        </div>
-        <p class="demo-intro">Each excerpt shows the attempted action and its visible outcome, with synchronized overhead and wrist views and a tactile heatmap.</p>
-        <div id="failure-demos" class="demo-grid failure-grid"></div>
-        <noscript><p class="demo-intro">Watch directly: <a href="assets/failures/egg-displaced.mp4">Egg transfer</a> · <a href="assets/failures/grape-not-lifted.mp4">Grape pinching</a> · <a href="assets/failures/tissue-not-extracted.mp4">Tissue extraction</a> · <a href="assets/failures/mung-bean-spill.mp4">Mung bean pouring</a>.</p></noscript>
-        <p class="failure-note">These examples illustrate visible outcomes. See the <a href="#results">evaluation</a> for aggregate success rates.</p>
-      </section>
-    </div>
 
     <div class="simulation-band">
       <section class="wrap demo-section" id="simulation">

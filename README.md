@@ -17,6 +17,7 @@ Run `python -m http.server 8765` in this folder, then visit http://localhost:876
 - `assets/paper/`: figures approved for display; no manuscript PDF is distributed.
 - `assets/demos/`: four real-world videos, eight simulation videos and their posters.
 - `assets/lighting/`: six excerpts of tissue extraction and mung bean pouring under lighting disturbances, with three RGB views and a tactile heatmap per video.
+- `assets/failures/`: one representative excerpt for each real-world task (egg displacement, grape not lifted, tissue left in dispenser, and beans spilled). Each video contains three RGB views and a tactile heatmap.
 
 All clips are H.264 MP4 web copies and load on demand. Five lighting excerpts play at 3× speed; the flashing-light excerpt is shown at 1× and has a playback warning. Source recordings are preserved outside this repository.
 

@@ -56,6 +56,11 @@
   }
   function render(items, id, kind) {
     const target = document.getElementById(id); target.replaceChildren();
+    const labels = {
+      real: ['实物', 'REAL WORLD'],
+      simulation: ['仿真', 'SIMULATION'],
+      failure: ['失败案例', 'FAILURE CASE']
+    }[kind];
     items.forEach((item, index) => {
       const card = make('article', 'demo-card' + (!url(item.src) ? ' coming-card' : ''));
       const stage = make('div', 'demo-stage');
@@ -77,14 +82,15 @@
       const info = make('div', 'demo-info');
       const heading = make('div', 'demo-title-row');
       const title = make('h3', '', item.title); heading.append(title);
-      heading.append(make('span', 'demo-kind', url(item.src) ? (kind === 'real' ? '实物' : '仿真') : '待更新'));
+      heading.append(make('span', 'demo-kind', url(item.src) ? labels[0] : '待更新'));
       info.append(heading, make('p', 'demo-task', item.task), make('p', 'demo-description', item.caption));
       const footer = make('div', 'demo-card-footer');
-      footer.append(make('span', '', kind === 'real' ? 'REAL WORLD' : 'SIMULATION'));
+      footer.append(make('span', '', item.speed ? `${labels[1]} · ${item.speed}` : labels[1]));
       if (url(item.src)) {
         const expand = make('button', 'demo-expand', ''); expand.type = 'button';
         expand.innerHTML = svgExpand + '<span>放大查看</span>';
-        expand.setAttribute('aria-label', '放大查看' + item.title); expand.onclick = () => enlarge(item);
+        expand.setAttribute('aria-label', '放大查看' + item.title);
+        expand.onclick = () => enlarge(kind === 'failure' ? { ...item, title: `${item.title} · ${item.task}` } : item);
         footer.append(expand);
       } else footer.append(make('span', 'coming-status', '视频准备中'));
       info.append(footer); card.append(stage, info); target.append(card);
@@ -149,6 +155,7 @@
     select(0);
   }
   render(config.realDemos || [], 'real-demos', 'real');
+  render(config.failureDemos || [], 'failure-demos', 'failure');
   render(config.simulationDemos || [], 'simulation-demos', 'simulation');
   renderLighting(config.lightingDemos || []);
   document.addEventListener('play', event => {

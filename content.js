@@ -53,6 +53,44 @@ window.PROJECT = {
       "duration": "01:22"
     }
   ],
+  "failureDemos": [
+    {
+      "title": "Egg Transfer",
+      "task": "Object displaced · 鸡蛋碰离底座",
+      "caption": "The hand nudges the egg off its holder, and the egg stays on the platform.",
+      "src": "assets/failures/egg-displaced.mp4",
+      "poster": "assets/failures/egg-displaced.jpg",
+      "duration": "00:18",
+      "speed": "1.5×"
+    },
+    {
+      "title": "Grape Pinching",
+      "task": "Grape not lifted · 未夹起葡萄",
+      "caption": "The fingers close around the grape, but the hand withdraws without lifting it.",
+      "src": "assets/failures/grape-not-lifted.mp4",
+      "poster": "assets/failures/grape-not-lifted.jpg",
+      "duration": "00:16",
+      "speed": "1.5×"
+    },
+    {
+      "title": "Tissue Extraction",
+      "task": "Tissue left in dispenser · 纸巾未抽出",
+      "caption": "The hand pulls the exposed tissue, but it stays in the dispenser and the target tray remains empty.",
+      "src": "assets/failures/tissue-not-extracted.mp4",
+      "poster": "assets/failures/tissue-not-extracted.jpg",
+      "duration": "00:26",
+      "speed": "2.5×"
+    },
+    {
+      "title": "Mung Bean Pouring",
+      "task": "Spill during pouring · 绿豆洒出",
+      "caption": "Some beans land in the jar, while others scatter onto the work surface.",
+      "src": "assets/failures/mung-bean-spill.mp4",
+      "poster": "assets/failures/mung-bean-spill.jpg",
+      "duration": "00:20",
+      "speed": "2×"
+    }
+  ],
   "simulationDemos": [
     {
       "title": "Insert Hole",

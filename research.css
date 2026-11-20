@@ -93,6 +93,19 @@
 .trajectory-figure { border: 1px solid #e6e2ec; border-radius: 14px; padding: clamp(9px, 3vw, 22px); }
 .trajectory-figure figcaption { margin-left: 0; }
 
+.failure-band { background: #faf7f3; border-block: 1px solid #eee5da; }
+.failure-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.failure-grid .demo-stage { aspect-ratio: 1280 / 784; background: #0c151c; }
+.failure-grid .demo-video { object-fit: contain; }
+.failure-grid .demo-kind { color: #79451f; background: #f9ede1; }
+.failure-grid .demo-task { color: #79451f; font-weight: 650; }
+.failure-grid .demo-description { color: #4d535a; font-size: 13px; }
+.failure-jump, .failure-note { margin: 21px 0 0; color: #60574f; font-size: 13px; }
+.failure-jump a, .failure-note a, #failure-cases noscript a { color: #845027; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) {
+  .failure-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (max-width: 780px) {
   .lighting-header { flex-direction: column; align-items: start; gap: 13px; }
   .lighting-header p { max-width: none; }
